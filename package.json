@@ -1,0 +1,30 @@
+{
+  "name": "techshethra-backend",
+  "version": "1.0.0",
+  "description": "Backend for TechShethra symposium website",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/config/seeder.js",
+    "seed:clear": "node src/config/seeder.js -c",
+    "create-admin": "node src/config/createAdmin.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.74.11",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.10.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.2",
+    "react-confetti": "^6.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
