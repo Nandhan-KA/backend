@@ -4,7 +4,8 @@ const {
   loginAdmin, 
   getAdminProfile, 
   registerAdmin, 
-  setupAdmin 
+  setupAdmin,
+  getAdminLoginHistory
 } = require('../controllers/authController');
 const {
   getDashboardStats,
@@ -21,6 +22,7 @@ router.get('/settings/public', getPublicSettings);
 // Protected routes
 router.get('/profile', protect, getAdminProfile);
 router.post('/register', protect, superAdmin, registerAdmin);
+router.get('/login-history', protect, getAdminLoginHistory);
 
 // Dashboard routes
 router.get('/dashboard', protect, getDashboardStats);

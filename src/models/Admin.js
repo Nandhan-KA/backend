@@ -25,7 +25,23 @@ const adminSchema = new mongoose.Schema({
   },
   lastLogin: {
     type: Date
-  }
+  },
+  lastLoginIp: {
+    type: String,
+    default: ''
+  },
+  loginHistory: [
+    {
+      ip: {
+        type: String,
+        required: true
+      },
+      timestamp: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ]
 }, {
   timestamps: true
 });

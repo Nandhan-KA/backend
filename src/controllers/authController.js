@@ -29,8 +29,24 @@ const loginAdmin = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Update last login time
+    // Get IP address from request
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown';
+    
+    // Update last login time and IP
     admin.lastLogin = Date.now();
+    admin.lastLoginIp = ip;
+    
+    // Add to login history
+    admin.loginHistory.push({
+      ip,
+      timestamp: Date.now()
+    });
+    
+    // Limit history to last 50 entries if it gets too long
+    if (admin.loginHistory.length > 50) {
+      admin.loginHistory = admin.loginHistory.slice(-50);
+    }
+    
     await admin.save();
 
     res.json({
@@ -138,9 +154,31 @@ const setupAdmin = async (req, res) => {
   }
 };
 
+// @desc    Get admin login history
+// @route   GET /api/admin/login-history
+// @access  Private/Admin
+const getAdminLoginHistory = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin._id).select('loginHistory lastLogin lastLoginIp');
+    
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    
+    res.json({
+      lastLogin: admin.lastLogin,
+      lastLoginIp: admin.lastLoginIp,
+      loginHistory: admin.loginHistory
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   loginAdmin,
   getAdminProfile,
   registerAdmin,
-  setupAdmin
+  setupAdmin,
+  getAdminLoginHistory
 }; 
