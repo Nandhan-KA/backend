@@ -23,9 +23,9 @@ const eventSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  registrationFee: {
-    type: Number,
-    default: 0
+  registrationFees: {
+    solo: { type: Number, default: 0 },
+    team: { type: Number, default: 0 }
   },
   qrCode: {
     type: String,
